@@ -8,7 +8,7 @@ const {
 const { requireAuthorized } = require("../middleware/requireAuthorized");
 const { requireLogin } = require("../middleware/requireLogin");
 const MovieRouter = Router();
-MovieRouter.get("/all", requireLogin, getMoviesList);
+MovieRouter.get("/all", getMoviesList);
 MovieRouter.post("/add", requireLogin, requireAuthorized, addMovie);
 MovieRouter.patch("/edit/:movieId", requireLogin, requireAuthorized, editMovie);
 MovieRouter.delete(
