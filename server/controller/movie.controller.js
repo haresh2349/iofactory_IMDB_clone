@@ -1,8 +1,10 @@
+const { ActorModel } = require("../model/Actor.model");
 const { MovieModel } = require("../model/Movie.model");
+const { ProducerModel } = require("../model/Producer.model");
 
 const getMoviesList = async (req, res) => {
   try {
-    await MovieModel.findOne({})
+    await MovieModel.find({})
       .populate("actors.actorId", "name")
       .populate("producer", "name")
       .then((results) =>
@@ -57,4 +59,28 @@ const deleteMovie = async (req, res) => {
   }
 };
 
-module.exports = { getMoviesList, addMovie, editMovie, deleteMovie };
+const getAllProducers = async (req, res) => {
+  try {
+    const producers = await ProducerModel.find();
+    return res.status(201).send(producers);
+  } catch (error) {
+    return res.status(201).send([]);
+  }
+};
+const getAllActors = async (req, res) => {
+  try {
+    const actors = await ActorModel.find();
+    return res.status(201).send(actors);
+  } catch (error) {
+    return res.status(201).send([]);
+  }
+};
+
+module.exports = {
+  getMoviesList,
+  addMovie,
+  editMovie,
+  deleteMovie,
+  getAllProducers,
+  getAllActors,
+};

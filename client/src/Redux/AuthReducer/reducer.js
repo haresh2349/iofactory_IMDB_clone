@@ -24,10 +24,13 @@ export const reducer = (state = initState, { type, payload }) => {
         message: payload.message,
       };
     case types.SIGNUP_FAILURE:
+      console.log(payload);
       return {
         ...state,
         isLoading: false,
         isError: true,
+        type: payload.type,
+        message: payload.message,
       };
     case types.LOGIN_REQUEST:
       return {
@@ -35,6 +38,7 @@ export const reducer = (state = initState, { type, payload }) => {
         isLoading: true,
       };
     case types.LOGIN_SUCCESS:
+      console.log(payload);
       return {
         ...state,
         isLoading: false,
@@ -48,6 +52,16 @@ export const reducer = (state = initState, { type, payload }) => {
         ...state,
         isLoading: false,
         isError: true,
+        type: payload.type,
+        message: payload.message,
+      };
+    case types.RESET_AUTH:
+      return {
+        ...state,
+        type: "",
+        message: "",
+        isLoading: false,
+        isError: false,
       };
     default:
       return state;

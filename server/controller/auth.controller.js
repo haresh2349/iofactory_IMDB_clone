@@ -4,11 +4,11 @@ const bcrypt = require("bcryptjs");
 const { signJwtToken } = require("../utils/JWT/jwt");
 
 const signupUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
   try {
-    if (name && email && password) {
+    if (name && email && password && role) {
       const hash = hashPassword(password);
-      const user = await new UserModel({ name, email, password: hash });
+      const user = await new UserModel({ name, email, password: hash, role });
       await user.save();
       return res.status(201).send({
         type: "success",
@@ -17,7 +17,7 @@ const signupUser = async (req, res) => {
     } else {
       return res
         .status(400)
-        .send({ type: "error", message: "Please Enter right credentials" });
+        .send({ type: "error", message: "Please enter all require details" });
     }
   } catch (error) {
     return res
@@ -45,10 +45,17 @@ const loginUser = async (req, res) => {
           message: "Login Successfull",
           token: token,
         });
+      } else {
+        return res.status(404).send({
+          type: "error",
+          message: "Please enter correct password",
+        });
       }
-      return res
-        .status(404)
-        .send({ type: "error", message: "Please Login again" });
+    } else {
+      return res.status(404).send({
+        type: "error",
+        message: "Please enter all require details",
+      });
     }
   } catch (error) {
     return res
